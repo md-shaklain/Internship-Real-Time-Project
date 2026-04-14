@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart College Home</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ✅ Navbar -->
+    <header class="navbar">
+
+        <div class="nav-left">
+            <img src="{% static 'images/college_logo.png' %}" class="nav-logo">
+            <h2>Smart College</h2>
+        </div>
+
+        <div class="nav-menu">
+
+            <nav class="nav-center">
+                <a href="{% url 'home' %}" class="active">Home</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'courses' %}">Courses</a>
+                <a href="{% url 'faculty' %}">Faculty</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+
+            <div class="nav-right">
+                <a href="{% url 'role_select' %}?form=login" class="login-nav">Login</a>
+                <a href="{% url 'role_select' %}?form=signup" class="signup-nav">Sign Up</a>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- ✅ MAIN WRAPPER (UPDATED SAME AS LOGIN PAGE) -->
+    <div class="page-wrapper">
+
+        <div class="login-wrapper">
+
+            <!-- 🔥 LEFT IMAGE (ADDED SAME AS LOGIN PAGE) -->
+            <div class="image-section">
+                <img src="{% static 'images/login_side_image.png' %}" alt="Login Image">
+            </div>
+
+            <!-- 🔥 RIGHT FORM (EXISTING CODE SAME) -->
+            <div class="form-section">
+
+                <div class="right-panel">
+                    <div class="login-wrapper">
+                        <div class="top-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+
+                        <h2 class="main-title">Welcome to Smart College</h2>
+
+                        <p class="signup-text">
+                            Need an account?
+                            <a href="{% url 'role_select' %}?form=signup">Sign Up</a>
+                        </p>
+
+                        <div class="role-box">
+                            <p>Select your role</p>
+
+                            <div class="roles">
+                                <a href="{% url 'admin_login' %}" class="role-btn admin">
+                                    <i class="fas fa-user-shield"></i> Admin
+                                </a>
+
+                                <a href="{% url 'teacher_login' %}" class="role-btn teacher">
+                                    <i class="fas fa-chalkboard-teacher"></i> Teacher
+                                </a>
+
+                                <a href="{% url 'student_login' %}" class="role-btn student">
+                                    <i class="fas fa-user-graduate"></i> Student
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="login-box">
+                            <h3>Sign In</h3>
+
+                            {% if error %}
+                            <p class="error-msg">{{ error }}</p>
+                            {% endif %}
+
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                <div class="input-group">
+                                    <input type="text" name="username" placeholder="Username" required>
+                                    <i class="fa fa-user"></i>
+                                </div>
+
+                                <div class="input-group">
+                                    <input type="password" id="password" name="password" placeholder="Password"
+                                        required>
+                                    <i class="fa fa-eye-slash" id="togglePassword"></i>
+                                </div>
+
+                                <div class="options">
+                                    <label><input type="checkbox"> Remember me</label>
+                                    <a href="{% url 'forget_password' %}">Forgot Password?</a>
+                                </div>
+
+                                <button type="submit">Sign In</button>
+                            </form>
+
+                            <div class="divider">
+                                <span>OR CONTINUE WITH</span>
+                            </div>
+
+                            <div class="social-icons">
+                                <a href="#" class="google"><i class="fab fa-google"></i></a>
+                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+
+                            <p class="footer">
+                                © 2026 Smart College Management System<br>
+                                <span>Secure login for educational institutions</span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        const toggle = document.getElementById("togglePassword");
+        const password = document.getElementById("password");
+
+        toggle.addEventListener("click", function () {
+            if (password.type === "password") {
+                password.type = "text";
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            } else {
+                password.type = "password";
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Exam Time Table</title>
+    <link rel="stylesheet" href="{% static 'css/add_exam_timetable.css' %}">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="form-container">
+        <div class="form-box">
+            <h2>Add Exam Time Table</h2>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="course">Course</label>
+                        <select name="course" id="course" required>
+                            <option value="">Select Course</option>
+                            {% if courses %}
+                                {% for course in courses %}
+                                    <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No Course Available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select name="subject" id="subject" required>
+                            <option value="">Select Subject</option>
+                            {% if subjects %}
+                                {% for sub in subjects %}
+                                    <option value="{{ sub }}">{{ sub }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No Subject Available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exam_date">Exam Date</label>
+                        <input type="date" name="exam_date" id="exam_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timing">Timing</label>
+                        <select name="timing" id="timing" required>
+                            <option value="">Select Exam Time</option>
+                            <option value="09:00 AM - 12:00 PM">09:00 AM - 12:00 PM</option>
+                            <option value="10:00 AM - 01:00 PM">10:00 AM - 01:00 PM</option>
+                            <option value="11:00 AM - 02:00 PM">11:00 AM - 02:00 PM</option>
+                            <option value="12:00 PM - 03:00 PM">12:00 PM - 03:00 PM</option>
+                            <option value="01:00 PM - 04:00 PM">01:00 PM - 04:00 PM</option>
+                            <option value="02:00 PM - 05:00 PM">02:00 PM - 05:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teacher">Exam Teacher</label>
+                        <select name="teacher" id="teacher">
+                            <option value="">Select Teacher</option>
+                            {% if teachers %}
+                                {% for teacher in teachers %}
+                                    <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No Teacher Available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room_no">Room No</label>
+                        <input type="text" name="room_no" id="room_no" placeholder="Enter Room Number" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Add Exam Time Table</button>
+                <a href="{% url 'exam_timetable_list' %}" class="back-link">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

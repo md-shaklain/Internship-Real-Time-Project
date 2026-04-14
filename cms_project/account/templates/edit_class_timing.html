@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Class Timing</title>
+    <link rel="stylesheet" href="{% static 'css/edit_class_timing.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Class Timing</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Start Time</label>
+        <input type="time" name="start_time" value="{{ timing.start_time|time:'H:i' }}" required>
+
+        <label>End Time</label>
+        <input type="time" name="end_time" value="{{ timing.end_time|time:'H:i' }}" required>
+
+        <button type="submit">Update Class Timing</button>
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </form>
+</div>
+
+</body>
+</html>

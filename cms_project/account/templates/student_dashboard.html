@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/student_dashboard.js' %}"></script>
+
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="logo-title">
+            <img src="{% static 'images/college_logo.png' %}" alt="College Logo" class="college-logo">
+            <h1>College Management System</h1>
+        </div>
+
+        <div class="top-right">
+            <div class="student-dropdown">
+                <div class="student-dropdown-btn" onclick="toggleStudentDropdown()">
+                    <div class="student-profile">
+                        <img src="{% static 'images/student.png' %}" alt="Student" class="student-img">
+                        <div class="student-info">
+                            <h4>{% if student %}{{ student.name }}{% else %}Student{% endif %}</h4>
+                            <p>Student Panel</p>
+                        </div>
+                    </div>
+                    <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </div>
+
+                <div id="studentDropdownMenu" class="student-dropdown-menu">
+                    <a href="#" onclick="showSection('dashboardSection'); return false;"><i class="fas fa-gauge-high"></i> Dashboard</a>
+                    <a href="#" onclick="showSection('profileSection'); return false;"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#" onclick="showSection('attendanceSection'); return false;"><i class="fas fa-calendar-check"></i> Attendance</a>
+                    <a href="#" onclick="showSection('resultsSection'); return false;"><i class="fas fa-chart-line"></i> Results</a>
+                    <a href="#" onclick="showSection('feesSection'); return false;"><i class="fas fa-money-bill-wave"></i> Fees</a>
+                    <a href="{% url 'logout' %}"><i class="fas fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="menu">
+                <a href="#" class="active-link" onclick="showSection('dashboardSection'); return false;">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <a href="#" onclick="showSection('profileSection'); return false;">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+
+                <a href="#" onclick="showSection('attendanceSection'); return false;">
+                    <i class="fas fa-calendar-check"></i> Attendance
+                </a>
+
+                <a href="#" onclick="showSection('resultsSection'); return false;">
+                    <i class="fas fa-chart-line"></i> Results
+                </a>
+
+                <a href="#" onclick="showSection('feesSection'); return false;">
+                    <i class="fas fa-money-bill-wave"></i> Fees
+                </a>
+            </div>
+
+            <div class="logout">
+                <a href="{% url 'logout' %}">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+
+            <!-- Dashboard -->
+            <div id="dashboardSection" class="content-section active-section">
+                <h2>Welcome{% if student %}, {{ student.name }}{% else %} Student{% endif %}</h2>
+
+                <!-- Added only this profile/image card -->
+                <div class="dashboard-profile-card">
+                    <div class="dashboard-profile-left">
+                        <img src="{% static 'images/student.png' %}" alt="Student Profile" class="dashboard-profile-img">
+                    </div>
+                    <div class="dashboard-profile-right">
+                        <h3>{% if student %}{{ student.name }}{% else %}Student{% endif %}</h3>
+                        <p><strong>Department:</strong> {% if student and student.department %}{{ student.department.name }}{% else %}N/A{% endif %}</p>
+                        <p><strong>Course:</strong> {% if student and student.course %}{{ student.course.name }}{% else %}N/A{% endif %}</p>
+                        <p><strong>Semester:</strong> {% if student %}{{ student.semester }}{% else %}N/A{% endif %}</p>
+                        <p>Welcome to your student dashboard. Here you can check your profile, attendance, results and fees.</p>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <div class="card blue">
+                        <h3>Total Classes</h3>
+                        <p>{{ total_classes }}</p>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Present Classes</h3>
+                        <p>{{ present_classes }}</p>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Attendance %</h3>
+                        <p>{{ attendance_percentage }}%</p>
+                    </div>
+
+                    <div class="card red">
+                        <h3>Total Results</h3>
+                        <p>{{ results|length }}</p>
+                    </div>
+                </div>
+
+                <div class="graph-grid">
+                    <div class="graph-card">
+                        <h3>Attendance Overview</h3>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Recent Result Marks</h3>
+                        <canvas id="resultChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Fee Status</h3>
+                        <canvas id="feeChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Subject Wise Marks</h3>
+                        <canvas id="subjectChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Access</h3>
+                    <div class="action-buttons">
+                        <button type="button" class="action-btn" onclick="showSection('profileSection')">My Profile</button>
+                        <button type="button" class="action-btn" onclick="showSection('attendanceSection')">Attendance</button>
+                        <button type="button" class="action-btn" onclick="showSection('resultsSection')">Results</button>
+                        <button type="button" class="action-btn" onclick="showSection('feesSection')">Fees</button>
+                    </div>
+                </div>
+
+                <div class="table-card eligibility-card">
+                    <h2>Exam Eligibility Status</h2>
+                    <p><strong>Total Classes:</strong> {{ total_classes }}</p>
+                    <p><strong>Present Classes:</strong> {{ present_classes }}</p>
+                    <p><strong>Attendance Percentage:</strong> {{ attendance_percentage }}%</p>
+
+                    {% if can_give_exam %}
+                        <p class="eligible-msg">✅ You are eligible for exam</p>
+                    {% else %}
+                        <p class="not-eligible-msg">❌ You are NOT eligible for exam (Minimum 75% required)</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div id="profileSection" class="content-section">
+                <h2>Student Profile</h2>
+                <div class="profile-card">
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <span class="label">Name</span>
+                            <span class="value">{{ student.name }}</span>
+                        </div>
+
+                        <div class="profile-item">
+                            <span class="label">Email</span>
+                            <span class="value">{{ student.email }}</span>
+                        </div>
+
+                        <div class="profile-item">
+                            <span class="label">Phone</span>
+                            <span class="value">{{ student.phone }}</span>
+                        </div>
+
+                        <div class="profile-item">
+                            <span class="label">Department</span>
+                            <span class="value">{{ student.department.name }}</span>
+                        </div>
+
+                        <div class="profile-item">
+                            <span class="label">Course</span>
+                            <span class="value">{{ student.course.name }}</span>
+                        </div>
+
+                        <div class="profile-item">
+                            <span class="label">Semester</span>
+                            <span class="value">{{ student.semester }}</span>
+                        </div>
+
+                        <div class="profile-item full-width">
+                            <span class="label">Enrollment No</span>
+                            <span class="value">{{ student.enrollment_no }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance -->
+            <div id="attendanceSection" class="content-section">
+                <h2>Attendance</h2>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Course</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in attendance %}
+                            <tr>
+                                <td>{{ a.date }}</td>
+                                <td>{{ a.course.name }}</td>
+                                <td>{{ a.status }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3">No attendance found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="resultsSection" class="content-section">
+                <h2>Results</h2>
+                <div class="table-card">
+                    {% if can_give_exam %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in results %}
+                            <tr>
+                                <td>{{ r.course.name }}</td>
+                                <td>{{ r.subject }}</td>
+                                <td>{{ r.marks }}</td>
+                                <td>{{ r.grade }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No results found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p class="not-eligible-msg">❌ Results are hidden due to low attendance</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Fees -->
+            <div id="feesSection" class="content-section">
+                <h2>Fees</h2>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Pending Amount</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fee in fees %}
+                            <tr>
+                                <td>{{ fee.amount }}</td>
+                                <td>{{ fee.pending_amount }}</td>
+                                <td>{{ fee.status }}</td>
+                                <td>{{ fee.due_date }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No fee record found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{ attendance_chart_labels|json_script:"attendance-chart-labels-data" }}
+    {{ attendance_chart_data|json_script:"attendance-chart-data" }}
+    {{ result_labels|json_script:"result-labels-data" }}
+    {{ result_marks_data|json_script:"result-marks-data" }}
+    {{ fee_status_labels|json_script:"fee-status-labels-data" }}
+    {{ fee_status_data|json_script:"fee-status-data" }}
+    {{ subject_labels|json_script:"subject-labels-data" }}
+    {{ subject_marks_data|json_script:"subject-marks-data" }}
+
+    
+</body>
+</html>

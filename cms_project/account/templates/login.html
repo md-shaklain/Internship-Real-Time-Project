@@ -1,0 +1,418 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart College</title>
+
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="{% static 'js/login.js' %}"></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-left">
+            <img src="{% static 'images/college_logo.png' %}" class="nav-logo" alt="College Logo">
+            <h2>Smart College</h2>
+        </div>
+
+        <div class="nav-menu">
+            <nav class="nav-center">
+                <a href="{% url 'home' %}" class="active">Home</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'courses' %}">Courses</a>
+                <a href="{% url 'faculty' %}">Faculty</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+
+            <div class="nav-right">
+                <a href="javascript:void(0)" class="login-nav" onclick="openLoginPage(); showLoginSection()">Login</a>
+                <a href="javascript:void(0)" class="signup-nav" onclick="openLoginPage(); showSignupSection()">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="heroSection" class="hero-section">
+        <img src="{% static 'images/college_building.png' %}" alt="Campus">
+        <div class="hero-text">
+            <h1>Smart College Campus</h1>
+            <p>Click Login or Sign Up to access your portal</p>
+        </div>
+    </div>
+
+    <div class="page-wrapper" id="loginPage" style="display:none;">
+        <div class="login-wrapper">
+
+            <div class="image-section">
+                <img src="{% static 'images/login_side_image.png' %}" alt="Login Image">
+            </div>
+
+            <div class="form-section">
+
+                <!-- LOGIN -->
+                <div id="loginSection">
+                    <div class="top-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+
+                    <h2 class="main-title">Welcome to Smart College</h2>
+
+                    <p class="signup-text">
+                        Need an account?
+                        <a href="javascript:void(0)" onclick="showSignupSection()">Sign Up</a>
+                    </p>
+
+                    <div class="role-box">
+                        <p>Select your role</p>
+
+                        <div class="roles">
+                            <button type="button" class="role-btn admin" onclick="selectRole('admin')">
+                                <i class="fas fa-user-shield"></i> Admin
+                            </button>
+
+                            <button type="button" class="role-btn teacher" onclick="selectRole('teacher')">
+                                <i class="fas fa-chalkboard-teacher"></i> Teacher
+                            </button>
+
+                            <button type="button" class="role-btn student" onclick="selectRole('student')">
+                                <i class="fas fa-user-graduate"></i> Student
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="login-box">
+                        <h3 id="loginRoleTitle">Sign in</h3>
+
+                        {% if error %}
+                            <p class="login-error">{{ error }}</p>
+                        {% endif %}
+
+                        {% if success %}
+                            <p style="color:green; margin-bottom:10px;">{{ success }}</p>
+                        {% endif %}
+
+                        <form method="POST" id="dynamicLoginForm" action="">
+                            {% csrf_token %}
+                            <input type="hidden" name="selected_role" id="selected_role">
+
+                            <div class="input-group">
+                                <input type="text" name="username" placeholder="Username" required>
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" placeholder="Password" required>
+                                <i class="fa fa-eye-slash" id="togglePassword"></i>
+                            </div>
+
+                            <div class="options">
+                                <label><input type="checkbox"> Remember me</label>
+                                <a href="javascript:void(0)" onclick="showForgetSection()">Forgot Password?</a>
+                            </div>
+
+                            <button type="submit" id="loginSubmitBtn">Sign In</button>
+                        </form>
+
+                        <div class="social-icons">
+                            <p>Or login with</p>
+
+                            <div class="icons">
+                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="google"><i class="fab fa-google"></i></a>
+                                <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+
+                            <p class="footer">
+                                © 2026 Smart College Management System<br>
+                                <span>Secure login for educational institutions</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORGET PASSWORD -->
+                <div id="forgetSection" style="display:none;">
+                    <div class="top-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+
+                    <h2 class="main-title">Forgot Password</h2>
+
+                    <p class="signup-text">
+                        Remember your password?
+                        <a href="javascript:void(0)" onclick="showLoginSection()">Login</a>
+                    </p>
+
+                    <div class="login-box">
+                        <h3>Reset Your Password</h3>
+
+                        {% if forget_error and not show_otp and not show_reset %}
+                            <p class="login-error">{{ forget_error }}</p>
+                        {% endif %}
+
+                        {% if forget_success and not show_otp %}
+                            <p style="color:green; margin-bottom:10px;">{{ forget_success }}</p>
+                        {% endif %}
+
+                        <form method="POST" action="{% url 'forget_password' %}">
+                            {% csrf_token %}
+
+                            <div class="input-group">
+                                <input type="email" name="email" placeholder="Enter your email" required>
+                                <i class="fa fa-envelope"></i>
+                            </div>
+
+                            <button type="submit">Send OTP</button>
+                        </form>
+
+                        <div class="social-icons">
+                            <p class="footer">
+                                © 2026 Smart College Management System<br>
+                                <span>Secure password recovery for educational institutions</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VERIFY OTP -->
+                <div id="otpSection" style="display:none;">
+                    <div class="top-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+
+                    <h2 class="main-title">Verify OTP</h2>
+
+                    <p class="signup-text">
+                        Enter the OTP sent to your email
+                    </p>
+
+                    <div class="login-box">
+                        <h3>OTP Verification</h3>
+
+                        {% if forget_error and show_otp %}
+                            <p class="login-error">{{ forget_error }}</p>
+                        {% endif %}
+
+                        {% if forget_success and show_otp %}
+                            <p style="color:green; margin-bottom:10px;">{{ forget_success }}</p>
+                        {% endif %}
+
+                        <form method="POST" action="{% url 'verify_otp' %}">
+                            {% csrf_token %}
+
+                            <div class="input-group">
+                                <input type="text" name="otp" placeholder="Enter 6 digit OTP" required>
+                                <i class="fa fa-lock"></i>
+                            </div>
+
+                            <button type="submit">Verify OTP</button>
+                        </form>
+
+                        <div class="social-icons">
+                            <p class="footer">
+                                © 2026 Smart College Management System<br>
+                                <span>OTP verification for secure password reset</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESET PASSWORD -->
+                <div id="resetSection" style="display:none;">
+                    <div class="top-icon">
+                        <i class="fas fa-unlock-alt"></i>
+                    </div>
+
+                    <h2 class="main-title">Create New Password</h2>
+
+                    <p class="signup-text">
+                        Set your new password below
+                    </p>
+
+                    <div class="login-box">
+                        <h3>Reset Password</h3>
+
+                        {% if forget_error and show_reset %}
+                            <p class="login-error">{{ forget_error }}</p>
+                        {% endif %}
+
+                        <form method="POST" action="{% url 'reset_password' %}">
+                            {% csrf_token %}
+
+                            <div class="input-group">
+                                <input type="password" name="new_password" placeholder="Enter new password" required>
+                                <i class="fa fa-eye-slash"></i>
+                            </div>
+
+                            <div class="input-group">
+                                <input type="password" name="confirm_password" placeholder="Confirm new password" required>
+                                <i class="fa fa-eye-slash"></i>
+                            </div>
+
+                            <button type="submit">Update Password</button>
+                        </form>
+
+                        <div class="social-icons">
+                            <p class="footer">
+                                © 2026 Smart College Management System<br>
+                                <span>Set a strong password to protect your account</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIGNUP -->
+                <div id="signupSection" style="display:none;">
+                    <div class="signup-box">
+                        <h2 class="signup-title">Create Account</h2>
+
+                        {% if signup_error %}
+                            <p class="login-error">{{ signup_error }}</p>
+                        {% endif %}
+
+                        {% if success %}
+                            <p style="color:green; margin-bottom:10px;">{{ success }}</p>
+                        {% endif %}
+
+                        <form method="POST" action="{% url 'register' %}">
+                            {% csrf_token %}
+
+                            <div class="signup-group">
+                                <label for="signupUsername">Username</label>
+                                <input type="text" id="signupUsername" name="username" placeholder="Enter your username" required>
+                            </div>
+
+                            <div class="signup-group">
+                                <label for="signupEmail">Email</label>
+                                <input type="email" id="signupEmail" name="email" placeholder="Enter your email address" required>
+                            </div>
+
+                            <div class="signup-group">
+                                <label for="signupRole">Role</label>
+                                <select id="signupRole" name="role" required>
+                                    <option value="">Select Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="student">Student</option>
+                                </select>
+                            </div>
+
+                            <div class="signup-group password-wrap">
+                                <label for="signupPassword">Password</label>
+                                <input type="password" id="signupPassword" name="password" placeholder="Create a strong password" required>
+                                <i class="fa fa-eye-slash signup-eye" id="toggleSignupPassword"></i>
+                            </div>
+
+                            <div class="signup-group">
+                                <label for="securityQuestion">Security Question</label>
+                                <input type="text" id="securityQuestion" name="security_question" placeholder="Enter your security question" required>
+                            </div>
+
+                            <div class="signup-group">
+                                <label for="securityAnswer">Security Answer</label>
+                                <input type="text" id="securityAnswer" name="security_answer" placeholder="Enter your security answer" required>
+                            </div>
+
+                            <button type="submit" class="register-btn">Sign Up</button>
+                        </form>
+
+                        <p class="login-text">
+                            Already have account?
+                            <a href="javascript:void(0)" onclick="showLoginSection()">Login</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="showSignupFlag" value="{% if show_signup %}true{% else %}false{% endif %}">
+    <input type="hidden" id="successFlag" value="{% if success %}true{% else %}false{% endif %}">
+    <input type="hidden" id="errorFlag" value="{% if error %}true{% else %}false{% endif %}">
+    <input type="hidden" id="showForgetFlag" value="{% if show_forget %}true{% else %}false{% endif %}">
+    <input type="hidden" id="showOtpFlag" value="{% if show_otp %}true{% else %}false{% endif %}">
+    <input type="hidden" id="showResetFlag" value="{% if show_reset %}true{% else %}false{% endif %}">
+
+    <script>
+        function openLoginPage() {
+            document.getElementById("heroSection").style.display = "none";
+            document.getElementById("loginPage").style.display = "block";
+        }
+
+        function showLoginSection() {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgetSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "none";
+            document.getElementById("resetSection").style.display = "none";
+        }
+
+        function showSignupSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "block";
+            document.getElementById("forgetSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "none";
+            document.getElementById("resetSection").style.display = "none";
+        }
+
+        function showForgetSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgetSection").style.display = "block";
+            document.getElementById("otpSection").style.display = "none";
+            document.getElementById("resetSection").style.display = "none";
+        }
+
+        function showOtpSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgetSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "block";
+            document.getElementById("resetSection").style.display = "none";
+        }
+
+        function showResetSection() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("signupSection").style.display = "none";
+            document.getElementById("forgetSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "none";
+            document.getElementById("resetSection").style.display = "block";
+        }
+
+        const showSignupFlag = document.getElementById("showSignupFlag").value;
+        const successFlag = document.getElementById("successFlag").value;
+        const errorFlag = document.getElementById("errorFlag").value;
+        const showForgetFlag = document.getElementById("showForgetFlag").value;
+        const showOtpFlag = document.getElementById("showOtpFlag").value;
+        const showResetFlag = document.getElementById("showResetFlag").value;
+
+        if (showSignupFlag === "true") {
+            openLoginPage();
+            showSignupSection();
+        } else if (showOtpFlag === "true") {
+            openLoginPage();
+            showOtpSection();
+        } else if (showResetFlag === "true") {
+            openLoginPage();
+            showResetSection();
+        } else if (showForgetFlag === "true") {
+            openLoginPage();
+            showForgetSection();
+        } else if (successFlag === "true") {
+            openLoginPage();
+            showLoginSection();
+        } else if (errorFlag === "true") {
+            openLoginPage();
+            showLoginSection();
+        }
+    </script>
+
+</body>
+
+</html>

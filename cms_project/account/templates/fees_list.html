@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fees List</title>
+    <link rel="stylesheet" href="{% static 'css/fees_list.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Fees List</h2>
+
+    <div class="top-buttons">
+        <a href="{% url 'add_fee' %}" class="add-btn">Add Fee</a>
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Total Amount</th>
+                <th>Pending Amount</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for fee in fees %}
+            <tr>
+                <td>{{ fee.id }}</td>
+                <td>{{ fee.student.name }}</td>
+                <td>{{ fee.student.course.name }}</td>
+                <td>{{ fee.amount }}</td>
+                <td>{{ fee.pending_amount }}</td>
+                <td>{{ fee.status }}</td>
+                <td>{{ fee.due_date }}</td>
+                <td>
+                    <a href="{% url 'edit_fee' fee.id %}" class="edit-btn">Edit</a>
+                    <a href="{% url 'delete_fee' fee.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this fee record?')">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="no-data">No fee records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

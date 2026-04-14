@@ -1,0 +1,93 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+        background:linear-gradient(135deg,#2980b9,#6dd5fa);
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* FORM CARD */
+.form-box{
+    width:420px;          /* yaha width control hogi */
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+.form-box h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#1e293b;
+}
+
+/* INPUT GROUP */
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* BUTTON */
+.btn-submit{
+    width:100%;
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.btn-submit:hover{
+    background:#1d4ed8;
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    text-decoration:none;
+    color:#2563eb;
+}
+
+
+.back-link{
+display:block;
+text-align:center;
+margin-top:10px;
+text-decoration:none;
+background:#1e8449;
+color:white;
+padding:8px;
+border-radius:6px;
+font-size:15px;
+}
+
+.back-link:hover{
+ background:#1e8449;
+
+
+}

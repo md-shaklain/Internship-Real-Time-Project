@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Teacher Class Schedule</title>
+
+<link rel="stylesheet" href="{% static 'css/add_teacher_schedule.css' %}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+<div class="form-card">
+
+<h2>Add Teacher Class Schedule</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="form-group">
+<label>Teacher</label>
+
+<select name="teacher" required>
+<option value="">Select Teacher</option>
+
+{% for teacher in teachers %}
+<option value="{{ teacher.id }}">
+{{ teacher.name }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label>Course</label>
+
+<select name="course" required>
+<option value="">Select Course</option>
+
+{% for course in courses %}
+<option value="{{ course.id }}">
+{{ course.name }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+
+<div class="form-group">
+<label>Date</label>
+<input type="date" name="date" required>
+</div>
+
+
+<div class="form-group">
+<label>Day</label>
+
+<select name="day" required>
+
+<option value="">Select Day</option>
+
+<option value="Monday">Monday</option>
+<option value="Tuesday">Tuesday</option>
+<option value="Wednesday">Wednesday</option>
+<option value="Thursday">Thursday</option>
+<option value="Friday">Friday</option>
+<option value="Saturday">Saturday</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+<label>Timing</label>
+
+<select name="timing" required>
+
+<option value="">Select Timing</option>
+
+{% for t in timings %}
+
+<option value="{{ t.id }}">
+{{ t.start_time }} - {{ t.end_time }}
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+<label>Room No</label>
+<input type="text" name="room_no" placeholder="Enter Room No" required>
+</div>
+
+
+<div class="button-group">
+
+<button type="submit" class="btn-submit">
+Add Schedule
+</button>
+
+<a href="{% url 'teacher_schedule_list' %}" class="btn-back">
+Back
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

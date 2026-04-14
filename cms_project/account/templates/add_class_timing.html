@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Class Timing</title>
+    <link rel="stylesheet" href="{% static 'css/add_class_timing.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Class Timing</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Start Time</label>
+        <input type="time" name="start_time" required>
+
+        <label>End Time</label>
+        <input type="time" name="end_time" required>
+
+        <button type="submit">Add Timing</button>
+    </form>
+
+    <a href="{% url 'class_timing_list' %}" class="back-btn">Back</a>
+</div>
+
+</body>
+</html>

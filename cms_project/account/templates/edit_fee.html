@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Fee</title>
+    <link rel="stylesheet" href="{% static 'css/edit_fee.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Fee</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="student">Student</label>
+        <select name="student" id="student" required>
+            {% for student in students %}
+            <option value="{{ student.id }}" {% if fee.student.id == student.id %}selected{% endif %}>
+                {{ student.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="amount">Amount</label>
+        <input type="number" name="amount" id="amount" value="{{ fee.amount }}" required>
+
+        <label for="pending_amount">Pending Fees Amount</label>
+        <input type="number" name="pending_amount" id="pending_amount" value="{{ fee.pending_amount }}" required>
+
+        <label for="status">Status</label>
+        <select name="status" id="status" required>
+            <option value="Pending" {% if fee.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Paid" {% if fee.status == 'Paid' %}selected{% endif %}>Paid</option>
+            <option value="Partial" {% if fee.status == 'Partial' %}selected{% endif %}>Partial</option>
+        </select>
+
+        <label for="due_date">Due Date</label>
+        <input type="date" name="due_date" id="due_date" value="{{ fee.due_date|date:'Y-m-d' }}" required>
+
+        <button type="submit" class="update-btn">Update Fee</button>
+
+        <a href="{% url 'fees_list' %}" class="back-btn">← Back</a>
+    </form>
+</div>
+
+</body>
+</html>

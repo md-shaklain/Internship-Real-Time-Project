@@ -1,0 +1,95 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+/* FORM BOX */
+.form-container{
+    width:360px;              /* 320 → 360 (better proportion) */
+    margin:80px auto;
+    background:#eaf4ff;
+    padding:30px;             /* 25 → 30 (clean spacing) */
+    border-radius:16px;       /* 8 → 16 (modern look) */
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    transition:0.3s;
+}
+
+/* Hover effect */
+.form-container:hover{
+    transform:translateY(-3px);
+}
+
+/* TITLE */
+h2{
+    text-align:center;
+    margin-bottom:22px;
+    color:#003d80;
+    font-size:26px;
+}
+
+/* LABEL */
+label{
+    font-size:14px;
+    font-weight:bold;
+    color:#003d80;
+}
+
+/* INPUT */
+input, select{
+    width:100%;
+    height:38px;              /* 32 → 38 */
+    margin-top:6px;
+    margin-bottom:14px;
+    padding-left:10px;
+    border:1px solid #b3d7ff;
+    border-radius:8px;        /* 4 → 8 */
+    outline:none;
+    transition:0.3s;
+}
+
+/* Focus effect */
+input:focus, select:focus{
+    border-color:#2575fc;
+    box-shadow:0 0 6px rgba(37,117,252,0.3);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    height:40px;             /* 34 → 40 */
+    background:linear-gradient(135deg,#007bff,#0056b3);
+    border:none;
+    color:white;
+    border-radius:10px;      /* 4 → 10 */
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+/* Hover */
+button:hover{
+    background:linear-gradient(135deg,#0056b3,#003d80);
+    transform:translateY(-1px);
+}
+
+/* LOGIN LINK */
+.login-link{
+    text-align:center;
+    margin-top:14px;
+    font-size:14px;
+}
+
+.login-link a{
+    text-decoration:none;
+    color:#007bff;
+    font-weight:bold;
+}
+
+.login-link a:hover{
+    text-decoration:underline;
+}

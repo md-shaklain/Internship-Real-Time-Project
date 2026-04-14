@@ -1,0 +1,108 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f2f5f9;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* form container */
+
+.form-container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+
+/* card */
+
+.form-box{
+    width:550px;
+    background:white;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* heading */
+
+.form-box h2{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:28px;
+    color:#1f3b5c;
+}
+
+/* form group */
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+    font-size:15px;
+}
+
+/* inputs */
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #d0d7e2;
+    border-radius:6px;
+    font-size:14px;
+    outline:none;
+    background:#fafafa;
+}
+
+/* focus effect */
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#1e7be6;
+    background:white;
+}
+
+/* update button */
+
+.btn-submit{
+    width:100%;
+    padding:13px;
+    background:#1e7be6;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+.btn-submit:hover{
+    background:#155fc2;
+}
+
+/* back link */
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    color:#1e7be6;
+    text-decoration:none;
+    font-weight:500;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}

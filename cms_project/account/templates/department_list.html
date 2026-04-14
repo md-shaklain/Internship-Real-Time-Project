@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Department List</title>
+    <link rel="stylesheet" href="{% static 'css/department_list.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Department List</h2>
+
+    <div class="button-group">
+        <a href="{% url 'add_department' %}" class="btn btn-add">Add Department</a>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-dashboard">Back to Dashboard</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Department Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ department.name }}</td>
+                <td>
+                    <a href="{% url 'edit_department' department.id %}" class="btn-edit">Edit</a>
+                    <a href="{% url 'delete_department' department.id %}" class="btn-delete">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No department found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

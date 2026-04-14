@@ -1,0 +1,106 @@
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #8e44ad, #ecf0f1);
+    margin: 0;
+    padding: 20px;
+}
+
+/* Container */
+.container{
+    width: 400px;
+    max-width: 90%;
+    background: white;
+    margin: auto;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+/* slight hover effect */
+.container:hover{
+    transform: translateY(-2px);
+}
+
+/* Heading */
+h2{
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 22px;
+}
+
+/* Labels */
+label{
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Inputs */
+input, select{
+    width: 100%;
+    padding: 9px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* Focus effect */
+input:focus, select:focus{
+    border-color: #8e44ad;
+    box-shadow: 0 0 5px rgba(142, 68, 173, 0.4);
+}
+
+/* Add Button */
+.add-btn{
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-btn:hover{
+    background: #6c3483;
+    transform: translateY(-1px);
+}
+
+/* Back Button */
+.back-btn{
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    background: #27ae60;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.back-btn:hover{
+    background: #1e8449;
+}
+
+/* Error Box */
+.error{
+    background: #fdecea;
+    color: #c0392b;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 13px;
+}

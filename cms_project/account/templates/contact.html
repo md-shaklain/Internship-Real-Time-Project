@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="nav-left">
+        <img src="{% static 'images/college_logo.png' %}" alt="College Logo" class="nav-logo">
+        <h2>Smart College</h2>
+    </div>
+
+    <div class="nav-menu">
+
+        <nav class="nav-center">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'courses' %}">Courses</a>
+            <a href="{% url 'faculty' %}">Faculty</a>
+            <a href="{% url 'contact' %}" class="active">Contact</a>
+        </nav>
+
+        <!-- ✅ FIXED PART -->
+        <div class="nav-right">
+            <a href="{% url 'role_select' %}?form=login" class="login-nav">Login</a>
+            <a href="{% url 'role_select' %}?form=signup" class="signup-nav">Sign Up</a>
+        </div>
+
+    </div>
+</header>
+
+<section class="page-section">
+    <div class="container">
+        <h1>Contact Us</h1>
+
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <p><b>Location:</b> Amarkantak, Madhya Pradesh</p>
+            <p><b>Phone:</b> +91 9876543210</p>
+            <p><b>Email:</b> info@smartcollege.edu.in</p>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

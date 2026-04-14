@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Teacher Schedule</title>
+    <link rel="stylesheet" href="{% static 'css/edit_teacher_schedule.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Teacher Schedule</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Teacher</label>
+        <select name="teacher" required>
+            {% for teacher in teachers %}
+            <option value="{{ teacher.id }}" {% if teacher.id == schedule.teacher.id %}selected{% endif %}>
+                {{ teacher.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Course</label>
+        <select name="course" required>
+            {% for course in courses %}
+            <option value="{{ course.id }}" {% if course.id == schedule.course.id %}selected{% endif %}>
+                {{ course.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Date</label>
+        <input type="date" name="date" value="{{ schedule.date|date:'Y-m-d' }}" required>
+
+        <label>Day</label>
+        <select name="day" required>
+            <option value="Monday" {% if schedule.day == 'Monday' %}selected{% endif %}>Monday</option>
+            <option value="Tuesday" {% if schedule.day == 'Tuesday' %}selected{% endif %}>Tuesday</option>
+            <option value="Wednesday" {% if schedule.day == 'Wednesday' %}selected{% endif %}>Wednesday</option>
+            <option value="Thursday" {% if schedule.day == 'Thursday' %}selected{% endif %}>Thursday</option>
+            <option value="Friday" {% if schedule.day == 'Friday' %}selected{% endif %}>Friday</option>
+            <option value="Saturday" {% if schedule.day == 'Saturday' %}selected{% endif %}>Saturday</option>
+        </select>
+
+        <label>Class Timing</label>
+        <select name="timing" required>
+            {% for timing in class_timings %}
+            <option value="{{ timing.id }}" {% if timing.id == schedule.timing.id %}selected{% endif %}>
+                {{ timing.start_time }} - {{ timing.end_time }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Room No</label>
+        <input type="text" name="room_no" value="{{ schedule.room_no }}" required>
+
+        <button type="submit">Update Teacher Schedule</button>
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </form>
+</div>
+
+</body>
+</html>

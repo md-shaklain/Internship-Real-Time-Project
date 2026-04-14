@@ -1,0 +1,588 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+html, body{
+    height:100%;
+}
+
+body{
+    background:#f4f6fb;
+    height:100vh;
+    padding-top:90px;
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#0d47a1;
+    display:flex;
+    align-items:center;
+    padding:14px 30px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    z-index:1000;
+}
+
+.nav-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-shrink:0;
+}
+
+.nav-logo{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    padding:3px;
+}
+
+.nav-left h2{
+    color:white;
+    font-size:26px;
+    font-weight:bold;
+    margin:0;
+}
+
+.nav-menu{
+    display:flex;
+    align-items:center;
+    margin-left:auto;
+    gap:25px;
+}
+
+.nav-center{
+    display:flex;
+    gap:28px;
+    align-items:center;
+}
+
+.nav-center a{
+    color:white;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:500;
+    transition:0.3s;
+    padding-bottom:4px;
+}
+
+.nav-center a:hover,
+.nav-center a.active{
+    color:#ffd54f;
+    border-bottom:2px solid #ffd54f;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.login-nav{
+    text-decoration:none;
+    color:white;
+    border:1.5px solid white;
+    padding:10px 22px;
+    border-radius:25px;
+    font-weight:bold;
+    transition:0.3s;
+    white-space:nowrap;
+}
+
+.login-nav:hover{
+    background:white;
+    color:#0d47a1;
+}
+
+.signup-nav{
+    text-decoration:none;
+    background:#ff9800;
+    color:white;
+    padding:10px 22px;
+    border-radius:25px;
+    font-weight:bold;
+    transition:0.3s;
+    white-space:nowrap;
+}
+
+.signup-nav:hover{
+    background:#e68900;
+}
+
+.top-icon{
+    text-align:center;
+    margin-bottom:6px;
+}
+
+.top-icon i{
+    font-size:38px;
+    color:#5b63ff;
+}
+/* ================= MAIN LAYOUT ================= */
+
+.page-wrapper{
+    width:100%;
+    height:calc(100vh - 90px);
+    background:linear-gradient(to right, #eef2f8 0%, #eef2f8 50%, #ffffff 50%, #ffffff 100%);
+    overflow:hidden;
+}
+
+.login-wrapper{
+    width:100%;
+    height:calc(100vh - 90px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/* ================= LEFT IMAGE ================= */
+
+.image-section{
+    width:50%;
+    height:calc(100vh - 90px);
+    background:#eef2f8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    padding:18px;
+}
+
+.image-section img{
+    max-width:96%;
+    max-height:92%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    display:block;
+}
+
+/* ================= RIGHT FORM AREA ================= */
+
+.form-section{
+    width:50%;
+    height:calc(100vh - 90px);
+    background:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px 22px;
+    overflow:hidden;
+}
+
+.right-panel{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.right-panel .login-wrapper{
+    width:100%;
+    max-width:470px;
+    height:auto;
+    display:block;
+    overflow:visible;
+}
+
+/* ================= TOP HEADING ================= */
+
+.main-title{
+    text-align:center;
+    font-size:22px;
+    color:#1565ea;
+    font-weight:700;
+    margin-bottom:4px;
+}
+
+.signup-text{
+    text-align:center;
+    color:#8a8a8a;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.signup-text a{
+    text-decoration:none;
+    color:#1565ea;
+    font-weight:600;
+    margin-left:6px;
+}
+
+/* ================= ROLE BOX ================= */
+
+.role-box{
+    width:100%;
+    background:#f8f8f8;
+    border:1px solid #e5e5e5;
+    border-radius:14px;
+    padding:10px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.role-box p{
+    text-align:center;
+    font-size:14px;
+    color:#888;
+    margin-bottom:10px;
+    font-weight:500;
+}
+
+.roles{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.role-btn{
+    flex:1;
+    border:none;
+    color:white;
+    font-size:14px;
+    font-weight:700;
+    padding:11px 8px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 3px 8px rgba(0,0,0,0.08);
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.role-btn i{
+    margin-right:6px;
+}
+
+.role-btn:hover{
+    transform:translateY(-1px);
+}
+
+.admin{
+    background:#129500;
+}
+
+.teacher{
+    background:#ff8a13;
+}
+
+.student{
+    background:#1f74eb;
+}
+
+/* ================= LOGIN BOX ================= */
+
+.login-box{
+    width:100%;
+}
+
+.login-box h3{
+    font-size:20px;
+    font-weight:700;
+    color:#111;
+    margin-bottom:12px;
+    position:relative;
+}
+
+.login-box h3::after{
+    content:"";
+    display:block;
+    width:48px;
+    height:4px;
+    background:linear-gradient(to right, #1565ea, #14a44d);
+    border-radius:4px;
+    margin-top:8px;
+}
+
+.error-msg{
+    background:#ffe4e4;
+    color:#c62828;
+    padding:8px 12px;
+    border-radius:8px;
+    margin-bottom:12px;
+    font-size:13px;
+    text-align:center;
+}
+
+/* ================= INPUTS ================= */
+
+.input-group{
+    position:relative;
+    margin-bottom:10px;
+}
+
+.input-group input{
+    width:100%;
+    height:46px;
+    border:1.5px solid #9ea7b3;
+    border-radius:6px;
+    outline:none;
+    padding:0 50px 0 16px;
+    font-size:15px;
+    background:#ffffff;
+    transition:0.3s;
+}
+
+.input-group input:focus{
+    border-color:#1565ea;
+    box-shadow:0 0 0 3px rgba(21,101,234,0.06);
+}
+
+.input-group i{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:20px;
+    color:#444;
+    cursor:pointer;
+}
+
+/* ================= OPTIONS ================= */
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:4px 0 12px;
+    gap:12px;
+    font-size:13px;
+}
+
+.options label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#444;
+}
+
+.options input[type="checkbox"]{
+    width:15px;
+    height:15px;
+}
+
+.options a{
+    color:#1565ea;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* ================= BUTTON ================= */
+
+button{
+    width:100%;
+    height:44px;
+    border:none;
+    border-radius:32px;
+    background:#1565c0;
+    color:white;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(21,101,192,0.18);
+    transition:0.3s;
+}
+
+button:hover{
+    background:#125bb0;
+    transform:translateY(-1px);
+}
+
+/* ================= DIVIDER ================= */
+
+.divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:14px 0;
+    width:100%;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#ccc;
+}
+
+.divider span{
+    margin:0 12px;
+    color:#7a6a57;
+    font-size:12px;
+    text-transform:uppercase;
+    white-space:nowrap;
+}
+
+/* ================= SOCIAL ICONS ================= */
+
+.social-icons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+.social-icons a{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.12);
+}
+
+.social-icons a:hover{
+    transform:translateY(-2px) scale(1.05);
+}
+
+.google{
+    background:#db4437;
+}
+
+.facebook{
+    background:#1877f2;
+}
+
+.twitter{
+    background:#1da1f2;
+}
+
+.linkedin{
+    background:#0a66c2;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    color: #1565ea;
+    font-size:12px;
+    line-height:1.4;
+    overflow-wrap:break-word;
+    word-wrap:break-word;
+    word-break:break-word;
+    padding:0 12px 4px;
+    margin-top:4px;
+}
+
+.footer span{
+    display:block;
+    font-size:14px;
+    color:black;
+    margin-top:4px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+    body{
+        height:auto;
+        overflow-y:auto;
+        padding-top:150px;
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+        padding:18px 20px;
+    }
+
+    .nav-menu{
+        flex-direction:column;
+        gap:12px;
+        margin-left:0;
+        width:100%;
+        justify-content:center;
+    }
+
+    .nav-center{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:16px;
+    }
+
+    .nav-right{
+        justify-content:center;
+    }
+
+    .page-wrapper{
+        height:auto;
+        min-height:auto;
+        background:#ffffff;
+        overflow:visible;
+    }
+
+    .login-wrapper{
+        flex-direction:column;
+        height:auto;
+        min-height:auto;
+        overflow:visible;
+    }
+
+    .image-section{
+        display:none;
+    }
+
+    .form-section{
+        width:100%;
+        height:auto;
+        min-height:auto;
+        padding:30px 20px;
+        overflow:visible;
+    }
+
+    .right-panel .login-wrapper{
+        max-width:100%;
+    }
+}
+
+@media(max-width:768px){
+    .roles{
+        flex-direction:column;
+    }
+
+    .main-title{
+        font-size:22px;
+    }
+
+    .login-box h3{
+        font-size:22px;
+    }
+
+    .input-group input{
+        height:48px;
+        font-size:14px;
+    }
+
+    button{
+        height:46px;
+        font-size:16px;
+    }
+
+    .options{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}

@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Timing List</title>
+    <link rel="stylesheet" href="{% static 'css/class_timing_list.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Class Timing List</h2>
+
+    <div class="top-actions">
+        <a href="{% url 'add_class_timing' %}" class="add-btn">Add Class Timing</a>
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+
+        {% for timing in timings %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ timing.start_time }}</td>
+            <td>{{ timing.end_time }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No class timings found</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

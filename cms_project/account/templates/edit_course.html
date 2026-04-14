@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit Course</title>
+<link rel="stylesheet" href="{% static 'css/add_course.css' %}">
+</head>
+
+<body>
+
+<div class="form-box">
+
+<h2>Edit Course</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="form-group">
+<label>Course Name</label>
+<input type="text" name="name" value="{{ course.name }}">
+</div>
+
+<div class="form-group">
+<label>Department</label>
+
+<select name="department">
+
+{% for department in departments %}
+
+<option value="{{ department.id }}"
+{% if department.id == course.department.id %}
+selected
+{% endif %}
+>
+
+{{ department.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<button type="submit" class="btn-submit">Update Course</button>
+
+<a href="{% url 'course_list' %}" class="back-link">Back</a>
+
+</form>
+
+</div>
+
+</body>
+</html>

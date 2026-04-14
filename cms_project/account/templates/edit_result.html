@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student Result</title>
+    <link rel="stylesheet" href="{% static 'css/edit_result.css' %}">
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Edit Student Result</h2>
+
+    {% if error %}
+        <p class="error-msg">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="student">Select Student</label>
+        <select name="student" id="student" required>
+            {% for student in students %}
+                <option value="{{ student.id }}" {% if result.student.id == student.id %}selected{% endif %}>
+                    {{ student.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="course">Select Course</label>
+        <select name="course" id="course" required>
+            {% for course in courses %}
+                <option value="{{ course.id }}" {% if result.course.id == course.id %}selected{% endif %}>
+                    {{ course.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="subject">Select Subject</label>
+        <select name="subject" id="subject" required>
+            <option value="">Select Subject</option>
+            <option value="Data Structures" {% if result.subject == "Data Structures" %}selected{% endif %}>Data Structures</option>
+            <option value="DBMS" {% if result.subject == "DBMS" %}selected{% endif %}>DBMS</option>
+            <option value="Operating System" {% if result.subject == "Operating System" %}selected{% endif %}>Operating System</option>
+            <option value="Computer Networks" {% if result.subject == "Computer Networks" %}selected{% endif %}>Computer Networks</option>
+            <option value="Software Engineering" {% if result.subject == "Software Engineering" %}selected{% endif %}>Software Engineering</option>
+            <option value="Python Programming" {% if result.subject == "Python Programming" %}selected{% endif %}>Python Programming</option>
+            <option value="Java" {% if result.subject == "Java" %}selected{% endif %}>Java</option>
+            <option value="Artificial Intelligence" {% if result.subject == "Artificial Intelligence" %}selected{% endif %}>Artificial Intelligence</option>
+        </select>
+
+        <label for="marks">Marks</label>
+        <input type="number" name="marks" id="marks" value="{{ result.marks }}" required>
+
+        <label for="grade">Select Grade</label>
+        <select name="grade" id="grade" required>
+            <option value="A" {% if result.grade == "A" %}selected{% endif %}>A</option>
+            <option value="B" {% if result.grade == "B" %}selected{% endif %}>B</option>
+            <option value="C" {% if result.grade == "C" %}selected{% endif %}>C</option>
+            <option value="Fail" {% if result.grade == "Fail" %}selected{% endif %}>Fail</option>
+        </select>
+
+        <button type="submit" class="submit-btn">Update Result</button>
+    </form>
+
+    <a href="{% url 'result_list' %}" class="back-link">← Back to Result List</a>
+</div>
+
+</body>
+</html>

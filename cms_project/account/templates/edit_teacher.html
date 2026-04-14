@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Teacher</title>
+    <link rel="stylesheet" href="{% static 'css/edit_teacher.css' %}">
+</head>
+<body>
+
+<div class="page-wrapper">
+    <div class="form-card">
+        <h2>Edit Teacher</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="{{ teacher.name }}" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ teacher.email }}" required>
+
+            <label for="department">Department</label>
+            <select name="department" id="department" required>
+                {% for department in departments %}
+                <option value="{{ department.id }}" {% if teacher.department.id == department.id %}selected{% endif %}>
+                    {{ department.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="update-btn">Update Teacher</button>
+            <a href="{% url 'teacher_list' %}" class="back-btn">← Back</a>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    padding: 40px 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 1100px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1f3b5c;
+    font-size: 34px;
+}
+
+.button-group {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.btn-add {
+    background: #1677ee;
+}
+
+.btn-add:hover {
+    background: #0f5fcc;
+}
+
+.btn-dashboard {
+    background: #28a745;
+}
+
+.btn-dashboard:hover {
+    background: #1f7d35;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #1677ee;
+    color: white;
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tbody tr:hover {
+    background: #f1f5ff;
+}
+
+.btn-edit {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.btn-delete {
+    display: inline-block;
+    background: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.no-data {
+    padding: 20px;
+    color: #666;
+    font-size: 17px;
+}

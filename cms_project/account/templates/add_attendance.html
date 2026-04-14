@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Attendance</title>
+    <link rel="stylesheet" href="{% static 'css/add_attendance.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Add Attendance</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Student</label>
+        <select name="student">
+            <option>Select Student</option>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Course</label>
+        <select name="course">
+            <option>Select Course</option>
+            {% for course in courses %}
+            <option value="{{ course.id }}">{{ course.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Date</label>
+        <input type="date" name="date">
+
+        <label>Status</label>
+        <select name="status">
+            <option>Select Status</option>
+            <option>Present</option>
+            <option>Absent</option>
+        </select>
+
+        <button type="submit" class="add-btn">Add Attendance</button>
+
+        <!-- Back Button -->
+        <a href="{% url 'attendance_list' %}" class="back-btn">← Back</a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

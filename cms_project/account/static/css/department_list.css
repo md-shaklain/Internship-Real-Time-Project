@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.container {
+    width: 600px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1f3b5c;
+}
+
+.button-group {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white !important;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.btn-add {
+    background: #1677ee;
+}
+
+.btn-add:hover {
+    background: #0f5fcc;
+}
+
+.btn-dashboard {
+    background: #28a745;
+}
+
+.btn-dashboard:hover {
+    background: #1f7d35;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #1677ee;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.btn-edit {
+    display: inline-block;
+    background: #28a745;
+    color: white !important;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+    font-size: 13px;
+}
+
+.btn-delete {
+    display: inline-block;
+    background: #dc3545;
+    color: white !important;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 13px;
+}

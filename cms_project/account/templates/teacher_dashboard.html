@@ -1,0 +1,1006 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/teacher_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/teacher_dashboard.js' %}"></script>
+
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="logo-title">
+            <img src="{% static 'images/college_logo.png' %}" alt="College Logo" class="college-logo">
+            <h1>College Management System</h1>
+        </div>
+
+        <div class="top-right">
+            <div class="teacher-dropdown">
+                <div class="teacher-dropdown-btn" onclick="toggleTeacherDropdown()">
+                    <div class="teacher-profile">
+                        <img src="{% static 'images/teacher.png' %}" alt="Teacher" class="teacher-img">
+                        <div class="teacher-info">
+                            <h4>{% if teacher %}{{ teacher.name }}{% else %}Teacher{% endif %}</h4>
+                            <p>Teacher Panel</p>
+                        </div>
+                    </div>
+                    <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </div>
+
+                <div id="teacherDropdownMenu" class="teacher-dropdown-menu">
+                    <a href="#" onclick="showSection('dashboardSection'); return false;"><i class="fas fa-gauge-high"></i> Dashboard</a>
+                    <a href="#" onclick="showSection('studentsSection'); return false;"><i class="fas fa-user-graduate"></i> Students</a>
+                    <a href="#" onclick="showSection('addStudentSection'); return false;"><i class="fas fa-user-plus"></i> Add Student</a>
+                    <a href="#" onclick="showSection('coursesSection'); return false;"><i class="fas fa-book"></i> Courses</a>
+                    <a href="#" onclick="showSection('addCourseSection'); return false;"><i class="fas fa-square-plus"></i> Add Course</a>
+                    <a href="#" onclick="showSection('attendanceSection'); return false;"><i class="fas fa-calendar-check"></i> Attendance</a>
+                    <a href="#" onclick="showSection('addAttendanceSection'); return false;"><i class="fas fa-clipboard-check"></i> Add Attendance</a>
+                    <a href="#" onclick="showSection('resultsSection'); return false;"><i class="fas fa-chart-line"></i> Results</a>
+                    <a href="#" onclick="showSection('addResultSection'); return false;"><i class="fas fa-file-circle-plus"></i> Add Result</a>
+                    <a href="#" onclick="showSection('recentStudentsSection'); return false;"><i class="fas fa-users"></i> Recent Students</a>
+                    <a href="#" onclick="showSection('recentAttendanceSection'); return false;"><i class="fas fa-clock-rotate-left"></i> Recent Attendance</a>
+                    <a href="#" onclick="showSection('lowAttendanceSection'); return false;"><i class="fas fa-triangle-exclamation"></i> Low Attendance</a>
+
+                    <a href="#" onclick="showSection('classTimingSection'); return false;"><i class="fas fa-clock"></i> Class Timing</a>
+                    <a href="#" onclick="showSection('addClassTimingSection'); return false;"><i class="fas fa-plus-circle"></i> Add Class Timing</a>
+
+                    <a href="#" onclick="showSection('examTimetableSection'); return false;"><i class="fas fa-file-lines"></i> Exam Timetable</a>
+                    <a href="#" onclick="showSection('addExamTimetableSection'); return false;"><i class="fas fa-plus-circle"></i> Add Exam Timetable</a>
+
+                    <a href="#" onclick="showSection('teacherScheduleSection'); return false;"><i class="fas fa-calendar-days"></i> Teacher Schedule</a>
+                    <a href="#" onclick="showSection('addTeacherScheduleSection'); return false;"><i class="fas fa-plus-circle"></i> Add Teacher Schedule</a>
+
+                    <a href="{% url 'logout' %}"><i class="fas fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="menu">
+
+                <a href="#" class="active-link" onclick="showSection('dashboardSection'); return false;">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('studentsMenu')">
+                    <span><i class="fas fa-user-graduate"></i> Students</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="studentsMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('studentsSection'); return false;">View Students</a>
+                    <a href="#" onclick="showSection('addStudentSection'); return false;">Add Student</a>
+                    <a href="#" onclick="showSection('recentStudentsSection'); return false;">Recent Students</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('coursesMenu')">
+                    <span><i class="fas fa-book"></i> Courses</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="coursesMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('coursesSection'); return false;">View Courses</a>
+                    <a href="#" onclick="showSection('addCourseSection'); return false;">Add Course</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('attendanceMenu')">
+                    <span><i class="fas fa-calendar-check"></i> Attendance</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="attendanceMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('attendanceSection'); return false;">View Attendance</a>
+                    <a href="#" onclick="showSection('addAttendanceSection'); return false;">Add Attendance</a>
+                    <a href="#" onclick="showSection('recentAttendanceSection'); return false;">Recent Attendance</a>
+                    <a href="#" onclick="showSection('lowAttendanceSection'); return false;">Low Attendance</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('resultsMenu')">
+                    <span><i class="fas fa-chart-line"></i> Results</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="resultsMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('resultsSection'); return false;">View Results</a>
+                    <a href="#" onclick="showSection('addResultSection'); return false;">Add Result</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('classTimingMenu')">
+                    <span><i class="fas fa-clock"></i> Class Timing</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="classTimingMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('classTimingSection'); return false;">View Class Timing</a>
+                    <a href="#" onclick="showSection('addClassTimingSection'); return false;">Add Class Timing</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('examMenu')">
+                    <span><i class="fas fa-file-lines"></i> Exam Timetable</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="examMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('examTimetableSection'); return false;">View Exam Timetable</a>
+                    <a href="#" onclick="showSection('addExamTimetableSection'); return false;">Add Exam Timetable</a>
+                </div>
+
+                <button type="button" class="dropdown-btn" onclick="toggleDropdown('scheduleMenu')">
+                    <span><i class="fas fa-calendar-days"></i> Teacher Schedule</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="scheduleMenu" class="dropdown-container">
+                    <a href="#" onclick="showSection('teacherScheduleSection'); return false;">View Teacher Schedule</a>
+                    <a href="#" onclick="showSection('addTeacherScheduleSection'); return false;">Add Teacher Schedule</a>
+                </div>
+
+            </div>
+
+            <div class="logout">
+                <a href="{% url 'logout' %}">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+
+            <!-- Dashboard -->
+            <div id="dashboardSection" class="content-section active-section">
+                <h2>Welcome{% if teacher %}, {{ teacher.name }}{% else %} Teacher{% endif %}</h2>
+
+                <div class="dashboard-profile-card">
+                    <div class="dashboard-profile-left">
+                        <img src="{% static 'images/teacher.png' %}" alt="Teacher Picture" class="dashboard-profile-img">
+                    </div>
+                    <div class="dashboard-profile-right">
+                        <h3>{% if teacher %}{{ teacher.name }}{% else %}Teacher Name{% endif %}</h3>
+                        <p><strong>Role:</strong> Teacher</p>
+                        <p><strong>Department:</strong> {% if teacher.department %}{{ teacher.department.name }}{% else %}Not Assigned{% endif %}</p>
+                        <p>Welcome to your dashboard. Here you can manage students, courses, attendance, results, exam timetable, class timing and teacher schedule.</p>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <div class="card blue">
+                        <h3>Total Students</h3>
+                        <p>{{ total_students }}</p>
+                        <button class="card-btn" type="button" onclick="showSection('studentsSection')">View Students</button>
+                    </div>
+
+                    <div class="card green">
+                        <h3>Total Courses</h3>
+                        <p>{{ total_courses }}</p>
+                        <button class="card-btn" type="button" onclick="showSection('coursesSection')">View Courses</button>
+                    </div>
+
+                    <div class="card orange">
+                        <h3>Total Attendance</h3>
+                        <p>{{ total_attendance }}</p>
+                        <button class="card-btn" type="button" onclick="showSection('attendanceSection')">View Attendance</button>
+                    </div>
+
+                    <div class="card red">
+                        <h3>Total Results</h3>
+                        <p>{{ total_results }}</p>
+                        <button class="card-btn" type="button" onclick="showSection('resultsSection')">View Results</button>
+                    </div>
+                </div>
+
+                <div class="graph-grid">
+                    <div class="graph-card">
+                        <h3>Attendance Overview</h3>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Recent Result Marks</h3>
+                        <canvas id="resultChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Students Per Course</h3>
+                        <canvas id="courseChart"></canvas>
+                    </div>
+
+                    <div class="graph-card">
+                        <h3>Exam Count Per Course</h3>
+                        <canvas id="examChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Access</h3>
+                    <div class="action-buttons">
+                        <button type="button" class="action-btn" onclick="showSection('addStudentSection')">Add Student</button>
+                        <button type="button" class="action-btn" onclick="showSection('addCourseSection')">Add Course</button>
+                        <button type="button" class="action-btn" onclick="showSection('addAttendanceSection')">Add Attendance</button>
+                        <button type="button" class="action-btn" onclick="showSection('addResultSection')">Add Result</button>
+                        <button type="button" class="action-btn" onclick="showSection('recentStudentsSection')">Recent Students</button>
+                        <button type="button" class="action-btn" onclick="showSection('recentAttendanceSection')">Recent Attendance</button>
+                        <button type="button" class="action-btn" onclick="showSection('lowAttendanceSection')">Low Attendance</button>
+                        <button type="button" class="action-btn" onclick="showSection('classTimingSection')">Class Timing</button>
+                        <button type="button" class="action-btn" onclick="showSection('examTimetableSection')">Exam Timetable</button>
+                        <button type="button" class="action-btn" onclick="showSection('teacherScheduleSection')">Teacher Schedule</button>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="table-card">
+                        <h2>Recent Students</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Course</th>
+                                    <th>Semester</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in recent_students %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.course.name }}</td>
+                                    <td>{{ student.semester }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No students found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <h2>Recent Attendance</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Student</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for attendance in recent_attendance %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ attendance.student.name }}</td>
+                                    <td>{{ attendance.date }}</td>
+                                    <td>{{ attendance.status }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4">No attendance records found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="table-card low-attendance-card">
+                    <h2>Low Attendance Students (Below 75%)</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Total Classes</th>
+                                <th>Present Classes</th>
+                                <th>Attendance %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in low_attendance_students %}
+                            <tr class="warning-row">
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.student.name }}</td>
+                                <td>{{ item.student.email }}</td>
+                                <td>{{ item.total_classes }}</td>
+                                <td>{{ item.present_classes }}</td>
+                                <td>{{ item.attendance_percentage }}%</td>
+                                <td><span class="warning-badge">Warning</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7">No low attendance students found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Student -->
+            <div id="addStudentSection" class="content-section">
+                <h2>Add Student</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_student' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="studentsSection">
+                        <div class="form-grid">
+                            <input type="text" name="name" placeholder="Student Name" required>
+                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="text" name="phone" placeholder="Phone Number" required>
+                            <input type="text" name="enrollment_no" placeholder="Enrollment Number" required>
+
+                            <select name="department" required>
+                                <option value="">Select Department</option>
+                                {% for department in departments %}
+                                <option value="{{ department.id }}">{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="course" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="text" name="semester" placeholder="Semester" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Student</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Students -->
+            <div id="studentsSection" class="content-section">
+                <h2>Students</h2>
+                <div class="section-top">
+                    <button type="button" class="add-btn" onclick="showSection('addStudentSection')">Add Student</button>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.course.name }}</td>
+                                <td>{{ student.semester }}</td>
+                                <td>
+                                    <a href="{% url 'edit_student' student.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_student' student.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this student?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No students found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Course -->
+            <div id="addCourseSection" class="content-section">
+                <h2>Add Course</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_course' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="coursesSection">
+                        <div class="form-grid">
+                            <input type="text" name="name" placeholder="Course Name" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Course</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Courses -->
+            <div id="coursesSection" class="content-section">
+                <h2>Courses</h2>
+                <div class="section-top">
+                    <button type="button" class="add-btn" onclick="showSection('addCourseSection')">Add Course</button>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Course Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ course.name }}</td>
+                                <td>
+                                    <a href="{% url 'edit_course' course.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_course' course.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this course?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3">No courses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Attendance -->
+            <div id="addAttendanceSection" class="content-section">
+                <h2>Add Attendance</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_attendance' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="attendanceSection">
+                        <div class="form-grid">
+                            <select name="student" required>
+                                <option value="">Select Student</option>
+                                {% for student in students %}
+                                <option value="{{ student.id }}">{{ student.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="course" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="date" name="date" required>
+
+                            <select name="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Attendance</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Attendance -->
+            <div id="attendanceSection" class="content-section">
+                <h2>Attendance</h2>
+                <div class="section-top">
+                    <button type="button" class="add-btn" onclick="showSection('addAttendanceSection')">Add Attendance</button>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attendance in attendance_records %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ attendance.student.name }}</td>
+                                <td>{{ attendance.course.name }}</td>
+                                <td>{{ attendance.date }}</td>
+                                <td>{{ attendance.status }}</td>
+                                <td>
+                                    <a href="{% url 'edit_attendance' attendance.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_attendance' attendance.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this attendance record?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No attendance records found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Result -->
+            <div id="addResultSection" class="content-section">
+                <h2>Add Result</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_result' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="resultsSection">
+                        <div class="form-grid">
+                            <select name="student" required>
+                                <option value="">Select Student</option>
+                                {% for student in students %}
+                                <option value="{{ student.id }}">{{ student.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="course" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Data Structures">Data Structures</option>
+                                <option value="DBMS">DBMS</option>
+                                <option value="Operating System">Operating System</option>
+                                <option value="Computer Networks">Computer Networks</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                                <option value="Python Programming">Python Programming</option>
+                                <option value="Java Programming">Java Programming</option>
+                            </select>
+
+                            <input type="number" name="marks" placeholder="Marks" required>
+
+                            <select name="grade" required>
+                                <option value="">Select Grade</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="Fail">Fail</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Result</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="resultsSection" class="content-section">
+                <h2>Results</h2>
+                <div class="section-top">
+                    <button type="button" class="add-btn" onclick="showSection('addResultSection')">Add Result</button>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.student.name }}</td>
+                                <td>{{ result.course.name }}</td>
+                                <td>{{ result.subject }}</td>
+                                <td>{{ result.marks }}</td>
+                                <td>{{ result.grade }}</td>
+                                <td>
+                                    <a href="{% url 'edit_result' result.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_result' result.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this result?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7">No results found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Students -->
+            <div id="recentStudentsSection" class="content-section">
+                <h2>Recent Students</h2>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in recent_students %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.course.name }}</td>
+                                <td>{{ student.semester }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No students found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Attendance -->
+            <div id="recentAttendanceSection" class="content-section">
+                <h2>Recent Attendance</h2>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Student</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attendance in recent_attendance %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ attendance.student.name }}</td>
+                                <td>{{ attendance.date }}</td>
+                                <td>{{ attendance.status }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No attendance records found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Low Attendance -->
+            <div id="lowAttendanceSection" class="content-section">
+                <h2>Low Attendance Students</h2>
+                <div class="table-card low-attendance-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Total Classes</th>
+                                <th>Present Classes</th>
+                                <th>Attendance %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in low_attendance_students %}
+                            <tr class="warning-row">
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.student.name }}</td>
+                                <td>{{ item.student.email }}</td>
+                                <td>{{ item.total_classes }}</td>
+                                <td>{{ item.present_classes }}</td>
+                                <td>{{ item.attendance_percentage }}%</td>
+                                <td><span class="warning-badge">Warning</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7">No low attendance students found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Class Timing -->
+            <div id="addClassTimingSection" class="content-section">
+                <h2>Add Class Timing</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_class_timing' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="classTimingSection">
+                        <div class="form-grid">
+                            <input type="time" name="start_time" required>
+                            <input type="time" name="end_time" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Class Timing</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Class Timing -->
+            <div id="classTimingSection" class="content-section">
+                <h2>Class Timing</h2>
+                <div class="section-top">
+                    <a href="#" class="add-btn" onclick="showSection('addClassTimingSection'); return false;">Add Class Timing</a>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for timing in class_timings %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ timing.start_time }}</td>
+                                <td>{{ timing.end_time }}</td>
+                                <td>
+                                    <a href="{% url 'edit_class_timing' timing.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_class_timing' timing.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this class timing?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No class timings found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Exam Timetable -->
+            <div id="addExamTimetableSection" class="content-section">
+                <h2>Add Exam Timetable</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'add_exam_timetable' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="examTimetableSection">
+                        <div class="form-grid">
+                            <select name="course" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Data Structures">Data Structures</option>
+                                <option value="DBMS">DBMS</option>
+                                <option value="Operating System">Operating System</option>
+                                <option value="Computer Networks">Computer Networks</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                                <option value="Python Programming">Python Programming</option>
+                                <option value="Java">Java</option>
+                                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                <option value="Machine Learning">Machine Learning</option>
+                                <option value="Compiler Design">Compiler Design</option>
+                            </select>
+
+                            <input type="date" name="exam_date" required>
+
+                            <select name="timing" required>
+                                <option value="">Select Exam Time</option>
+                                <option value="09:00 AM - 12:00 PM">09:00 AM - 12:00 PM</option>
+                                <option value="10:00 AM - 01:00 PM">10:00 AM - 01:00 PM</option>
+                                <option value="11:00 AM - 02:00 PM">11:00 AM - 02:00 PM</option>
+                                <option value="12:00 PM - 03:00 PM">12:00 PM - 03:00 PM</option>
+                                <option value="01:00 PM - 04:00 PM">01:00 PM - 04:00 PM</option>
+                                <option value="02:00 PM - 05:00 PM">02:00 PM - 05:00 PM</option>
+                            </select>
+
+                            <select name="teacher">
+                                <option value="">Select Teacher</option>
+                                {% if teacher %}
+                                <option value="{{ teacher.id }}" selected>{{ teacher.name }}</option>
+                                {% endif %}
+                            </select>
+
+                            <input type="text" name="room_no" placeholder="Room Number" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Exam Timetable</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Exam Timetable -->
+            <div id="examTimetableSection" class="content-section">
+                <h2>Exam Timetable</h2>
+                <div class="section-top">
+                    <a href="#" class="add-btn" onclick="showSection('addExamTimetableSection'); return false;">Add Exam Timetable</a>
+                </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                                <th>Exam Date</th>
+                                <th>Timing</th>
+                                <th>Teacher</th>
+                                <th>Room No</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for exam in exam_timetables %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ exam.course.name }}</td>
+                                <td>{{ exam.subject }}</td>
+                                <td>{{ exam.exam_date }}</td>
+                                <td>{{ exam.timing }}</td>
+                                <td>{% if exam.teacher %}{{ exam.teacher.name }}{% else %}Not Assigned{% endif %}</td>
+                                <td>{{ exam.room_no }}</td>
+                                <td>
+                                    <a href="{% url 'edit_exam_timetable' exam.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_exam_timetable' exam.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this exam timetable?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">No exam timetable found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add Teacher Schedule -->
+            <div id="addTeacherScheduleSection" class="content-section">
+                <h2>Add Teacher Schedule</h2>
+                <div class="form-card">
+                    <form method="POST" action="{% url 'teacher_dashboard' %}?section=teacherScheduleSection">
+                        {% csrf_token %}
+                        <input type="hidden" name="section" value="teacherScheduleSection">
+                        <div class="form-grid">
+                            <select name="teacher" required>
+                                <option value="">Select Teacher</option>
+                                {% for t in teachers %}
+                                <option value="{{ t.id }}">{{ t.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <select name="course" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="date" name="date" required>
+
+                            <select name="day" required>
+                                <option value="">Select Day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+
+                            <select name="timing" required>
+                                <option value="">Select Class Timing</option>
+                                {% for timing in class_timings %}
+                                <option value="{{ timing.id }}">{{ timing.start_time }} - {{ timing.end_time }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="text" name="room_no" placeholder="Room Number" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Teacher Schedule</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Teacher Schedule -->
+            <div id="teacherScheduleSection" class="content-section">
+                <h2>Teacher Schedule</h2>
+                <div class="section-top">
+                    <a href="#" class="add-btn" onclick="showSection('addTeacherScheduleSection'); return false;">Add Teacher Schedule</a>
+                </div>
+
+                <div class="table-card">
+                    <h2 style="font-size:20px;">Schedule Summary</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Teacher Name</th>
+                                <th>Total Courses</th>
+                                <th>Total Schedules</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{% if teacher %}{{ teacher.name }}{% else %}Teacher not found{% endif %}</td>
+                                <td>{{ total_courses }}</td>
+                                <td>{{ teacher_schedules|length }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Teacher</th>
+                                <th>Course</th>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Timing</th>
+                                <th>Room No</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in teacher_schedules %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{% if schedule.teacher %}{{ schedule.teacher.name }}{% else %}No Teacher{% endif %}</td>
+                                <td>{{ schedule.course.name }}</td>
+                                <td>{{ schedule.date }}</td>
+                                <td>{{ schedule.day }}</td>
+                                <td>
+                                    {% if schedule.timing %}
+                                        {{ schedule.timing.start_time }} - {{ schedule.timing.end_time }}
+                                    {% else %}
+                                        No Timing
+                                    {% endif %}
+                                </td>
+                                <td>{{ schedule.room_no }}</td>
+                                <td>
+                                    <a href="{% url 'edit_teacher_schedule' schedule.id %}" class="edit-btn">Edit</a>
+                                    <a href="{% url 'delete_teacher_schedule' schedule.id %}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this teacher schedule?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">No teacher schedule found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{{ attendance_present_count|json_script:"attendance-present-data" }}
+{{ attendance_absent_count|json_script:"attendance-absent-data" }}
+
+{{ result_labels|json_script:"result-labels-data" }}
+{{ result_marks_data|json_script:"result-marks-data" }}
+{{ course_labels|json_script:"course-labels-data" }}
+{{ course_student_counts|json_script:"course-student-counts-data" }}
+{{ exam_labels|json_script:"exam-labels-data" }}
+{{ exam_counts|json_script:"exam-counts-data" }}
+
+    
+</body>
+</html>

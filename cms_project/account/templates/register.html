@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Register</h2>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Role</label>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+        </select>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <label>Security Question</label>
+        <input type="text" name="security_question" required>
+
+        <label>Security Answer</label>
+        <input type="text" name="security_answer" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p class="login-link">
+        Already have account? <a href="{% url 'role_select' %}">Login</a>
+    </p>
+</div>
+
+</body>
+</html>

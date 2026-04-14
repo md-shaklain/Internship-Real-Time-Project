@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Student</title>
+    <link rel="stylesheet" href="{% static 'css/edit_student.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Student</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Name</label>
+        <input type="text" name="name" value="{{ student.name }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ student.email }}" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ student.phone }}" required>
+
+        <label>Department</label>
+        <select name="department" required>
+            {% for department in departments %}
+                <option value="{{ department.id }}" {% if student.department.id == department.id %}selected{% endif %}>
+                    {{ department.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Course</label>
+        <select name="course" required>
+            {% for course in courses %}
+                <option value="{{ course.id }}" {% if student.course.id == course.id %}selected{% endif %}>
+                    {{ course.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Semester</label>
+        <input type="text" name="semester" value="{{ student.semester }}">
+
+        <label>Enrollment No</label>
+        <input type="text" name="enrollment_no" value="{{ student.enrollment_no }}">
+
+        <button type="submit">Update Student</button>
+        <a href="{% url 'students_list' %}" class="back-btn">Back to Students</a>
+    </form>
+</div>
+
+</body>
+</html>
